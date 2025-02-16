@@ -1,19 +1,23 @@
 from htmlnode import HTMLNode
 
-class LeafNode(HTMLNode):
-  def __init__(self, tag=None, value=None, props=None):
-    super().__init__(tag, value, [], props)
+class ParentNode(HTMLNode):
+  def __init__(self, tag, children, props=None):
+    super().__init__(tag, None, children, props)
 
   def to_html(self):
-    if self.value is None:
-      raise ValueError("LeafNode must have a value")
     if self.tag is None:
-      return self.value
-    else:
-      return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
-  
-  def __eq__(self, value):
-    return self.tag == value.tag and self.value == value.value and self.props == value.props
+      raise ValueError("ParentNode must have a tag")
+    if self.children is None:
+      raise ValueError("ParentNode must have children")
+    children_html = "".join([child.to_html() for child in self.children])
+    return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
+
+  def __eq__(self, other):
+    return (
+      self.tag == other.tag 
+      and self.children == other.children 
+      and self.props == other.props
+    )
 
   def __repr__(self):
-    return f"LeafNode({self.tag}, {self.value}, {self.props})"
+    return f"ParentNode({self.tag}, {self.children}, {self.props})"
