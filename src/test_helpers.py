@@ -7,9 +7,10 @@ from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
     text_to_textnodes,
-    markdown_to_blocks,
+    extract_title,
 )
 from markdown_blocks import (
+    markdown_to_blocks,
     block_to_block_type,
     block_type_code,
     block_type_heading,
@@ -237,13 +238,12 @@ class TestHelpers(unittest.TestCase):
             ],
             matches,
         )
-
-    def test_extract_markdown_links(self):
-        # Test case 1: Basic link
-        text = "Hello [world](https://www.boot.dev)!"
-        links = extract_markdown_links(text)
-        assert len(links) == 1
-        assert links[0] == ("world", "https://www.boot.dev")
+        
+    def test_extract_title(self):
+        # Test case 1: Basic title
+        text = "# This is a title"
+        title = extract_title(text)
+        assert title == "This is a title"
 
 
 
@@ -291,6 +291,10 @@ This is the same paragraph on a new line
                 "* This is a list\n* with items",
             ],
         )
+
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
