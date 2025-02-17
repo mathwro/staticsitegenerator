@@ -1,6 +1,6 @@
 from textnode import TextNode, TextType
 from copystatic import copy_files
-from generate_page import generate_page
+from generate_page import generate_pages_recursive, generate_page
 import os
 import shutil
 
@@ -23,7 +23,7 @@ def main():
 
   copy_files(src, dest)
   print("Copy operation complete!")
-  generate_page("content/index.html", "template.html", "public/index.html")
+  generate_pages_recursive("content", "template.html", "public")
 
 if __name__ == "__main__":
   main()
